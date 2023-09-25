@@ -11,7 +11,6 @@ const ImageGallery = ({ searchQuery }) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(12);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
   const [status, setStatus] = useState('idle');
 
   useEffect(() => {
@@ -20,6 +19,7 @@ const ImageGallery = ({ searchQuery }) => {
     setIsLoading(true);
     setStatus('pending');
     setPage(1);
+    setPerPage(12);
 
     getPixabayPictures(searchQuery, 1, perPage)
       .then(({ data }) => {
@@ -36,7 +36,6 @@ const ImageGallery = ({ searchQuery }) => {
         setStatus('resolved');
       })
       .catch(error => {
-        setError(error);
         setStatus('rejected');
       });
   }, [perPage, searchQuery]);
@@ -51,7 +50,6 @@ const ImageGallery = ({ searchQuery }) => {
         setStatus('resolved');
       })
       .catch(error => {
-        setError(error);
         setStatus('rejected');
       });
   };
