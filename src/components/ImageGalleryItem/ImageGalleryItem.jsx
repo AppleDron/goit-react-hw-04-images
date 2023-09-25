@@ -1,38 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import css from './ImageGalleryItem.module.css';
 import Modal from 'components/Modal/Modal';
 
-export default class ImageGalleryItem extends Component {
-  state = {
-    isVisibleModal: false,
+const ImageGalleryItem = ({ id, webformatURL, largeImageURL }) => {
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsVisibleModal(true);
   };
 
-  handleOpenModal = () => {
-    this.setState({ isVisibleModal: true });
+  const closeModal = () => {
+    setIsVisibleModal(false);
   };
 
-  closeModal = () => {
-    this.setState({ isVisibleModal: false });
-  };
+  return (
+    <>
+      <li className={css.ImageGalleryItem} key={id}>
+        <img
+          src={webformatURL}
+          alt={largeImageURL}
+          className={css['ImageGalleryItem-image']}
+          onClick={handleOpenModal}
+        />
+        {isVisibleModal && (
+          <Modal largeImageURL={largeImageURL} closeModal={closeModal} />
+        )}
+      </li>
+    </>
+  );
+};
 
-  render() {
-    const { id, webformatURL, largeImageURL } = this.props;
-    const { isVisibleModal } = this.state;
-
-    return (
-      <>
-        <li className={css.ImageGalleryItem} key={id}>
-          <img
-            src={webformatURL}
-            alt={largeImageURL}
-            className={css['ImageGalleryItem-image']}
-            onClick={this.handleOpenModal}
-          />
-          {isVisibleModal && (
-            <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} />
-          )}
-        </li>
-      </>
-    );
-  }
-}
+export default ImageGalleryItem;
